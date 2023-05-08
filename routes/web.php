@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -75,25 +76,34 @@ use App\Models\User;
 
 // Route::view('show-form', 'form');
 
+Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
+Route::get('/tin-tuc', 'HomeController@getNews')->name('news');
+Route::get('/chuyen-muc/{id}', [HomeController::class, 'getCategory']);
+
 Route::prefix('admin')->group(function () {
-    Route::get('tin-tuc/{id?}/{slug?}', function ($id = null, $slug = null) {
+    Route::get('tin-tuc/{id?}/{slug?}.html', function ($id = null, $slug = null) {
         $content = 'Phương thức Get của path/ unicode: ';
         $content .= "có id: " . $id . '<br/>';
         $content .= "có slug: " . $slug;
         return $content;
-    });
+    })->where(
+        // 'slug'  => '.+',
+        // 'id'    => '[0-9]+',
+        'id',
+        '\d+'
+    )->where('slug', '.+')->name('admin.tintuc');
 
     Route::get('show-form', function () {
         return view('form');
-    });
+    })->name('admin.show-form');
 
-    Route::prefix('products')->group(function () {
+    Route::prefix('products')->middleware('checkpermisson')->group(function () {
         Route::get('/', function () {
             return 'Danh sách sản phẩm';
         });
         Route::get('/add', function () {
             return 'Thêm sản phẩm';
-        });
+        })->name('admin.products.add');
         Route::get('/edit', function () {
             return 'Sửa sản phẩm';
         });
