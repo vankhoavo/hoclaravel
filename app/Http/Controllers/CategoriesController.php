@@ -6,13 +6,36 @@ use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
 {
-    public function __construct()
+    public function __construct(Request $request)
     {
+        // echo 'Welcome';
+        /**
+         * Nếu là trang danh sách chuyên mục => hiển thị ra dòng chữ: Xin chào Unicode
+         */
+        // dd($request);
+        if ($request->is('categories')) {
+            echo '<h3>Xin chào Unicode</h3>';
+        }
     }
 
     // Hiển thị danh sách chuyên mục (Phương thức get)
-    public function index()
+    public function index(Request $request)
     {
+        // if (isset($_GET['id'])) {
+        //     echo $_GET['id'];
+        // }
+
+        // dd($request);
+
+        // $allData = $request->all();
+        // // echo $allData['id'];
+        // echo $request->all()['name'];
+
+        // dd($allData);
+
+        $path = $request->path();
+        echo $path;
+
         return view('clients/categories/list');
     }
 
@@ -29,15 +52,20 @@ class CategoriesController extends Controller
     }
 
     // Show form thêm dữ liệu (Phương thức get)
-    public function addCategory()
+    public function addCategory(Request $request)
     {
+        $path = $request->path();
+        echo $path;
         return view('clients/categories/add');
     }
 
     // Thêm dữ liệu vào chuyên mục (Phương thức post)
-    public function handleAddCategory()
+    public function handleAddCategory(Request $request)
     {
-        return redirect(route('categories.add'));
+        $allData = $request->all();
+        dd($allData);
+        // print_r($_POST);
+        // return redirect(route('categories.add'));
         // return 'Submit thêm chuyên mục';
     }
 

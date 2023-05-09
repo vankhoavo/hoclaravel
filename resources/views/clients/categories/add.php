@@ -7,3 +7,4 @@
     <!-- <input type="hidden" name="token" value="<?php echo csrf_token(); ?>"> -->
     <button type="submit">Thêm Chuyên Mục</button>
 </form>
+
