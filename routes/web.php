@@ -127,6 +127,12 @@ Route::middleware('auth.admin')->prefix('categories')->group(function () {
 
     // Xoá chuyên mục
     Route::delete('/delete/{id}', [CategoriesController::class, 'deleteCategory'])->name('categories.delete');
+
+    // Hiển thị form upload
+    Route::get('/upload', [CategoriesController::class, 'getFile']);
+
+    // Xử lí file
+    Route::post('/upload', [CategoriesController::class, 'handleFile'])->name('categories.upload');
 });
 
 
